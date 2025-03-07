@@ -1,0 +1,29 @@
+# This file should be included when you package your plugin.
+
+# Mandatory items:
+[general]
+name=Stratigraphic Thickness
+qgisMinimumVersion=3.0
+description=Estimates the stratigraphic thickness based on a trigonometric calculation with topographic correction using a DEM.
+version=1.0
+author=Asier Valenzuela
+email=asier.valenzuela@ehu.eus
+
+about=This plugin calculates the stratigraphic thickness using the formula: E = d * sin(α) - Δh * cos(α), where E is the stratigraphic thickness, d is the horizontal distance between two points, α is the dip angle of the stratum, and Δh is the difference in height between the two points (top height - base height).
+
+# Recommended items:
+hasProcessingProvider=no
+tags=python, stratigraphy, thickness, DEM
+category=Plugins
+icon=icon.png
+
+# Plugin state:
+experimental=True
+deprecated=False
+server=False
+
+# Required by QGIS Plugin Repository:
+[about]
+tracker=https://github.com/AsierGeocrazy/stratigraphic_thickness/issues
+repository=https://github.com/AsierGeocrazy/stratigraphic_thickness
+homepage=https://github.com/AsierGeocrazy/stratigraphic_thickness
