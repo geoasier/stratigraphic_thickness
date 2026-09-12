@@ -4,26 +4,35 @@
 [general]
 name=Stratigraphic Thickness
 qgisMinimumVersion=3.0
-description=Estimates the stratigraphic thickness based on a trigonometric calculation with topographic correction using a DEM.
-version=1.0
+description=Estimates stratigraphic thickness of a sedimentary succession from map clicks, with optional topographic correction using a DEM, manual elevation entry, or a quick no-elevation estimate.
+version=1.1
 author=Asier Valenzuela
 email=asier.valenzuela@ehu.eus
 
-about=This plugin calculates the stratigraphic thickness using the formula: E = d * sin(α) - Δh * cos(α), where E is the stratigraphic thickness, d is the horizontal distance between two points, α is the dip angle of the stratum, and Δh is the difference in height between the two points (top height - base height).
+about=This plugin estimates the stratigraphic thickness (ST) of a succession using the classic field-geology traverse method, with an optional topographic correction: ST = d*sin(dip) + Δh*cos(dip), where d is the horizontal distance between the base and the top of the succession, Δh is their elevation difference, and dip is the dip of the strata.
+ Elevation can be read from a DEM layer, entered manually, or skipped entirely for a quick flat-terrain estimate. Successive segments can be chained along a single traverse, each with its own dip, useful for successions with changes in dip. A dedicated (sub)horizontal mode handles beds with dip ≤5° directly from the elevation difference. Any segment can be corrected afterwards by double-clicking it in the list, and the last clicked point can be undone with Backspace.
+ This is an approximation: it assumes a continuous, undeformed succession, measured roughly perpendicular to the strike of the strata. Measuring across an entire folded or faulted succession gives meaningless results, but it works fine within a single fault-bounded block, or on the limb of a fold, as long as the strata keep a fairly constant strike and dip within that segment.
 
 # Recommended items:
 hasProcessingProvider=no
-tags=python, stratigraphy, thickness, DEM
+tags=python, stratigraphy, thickness, DEM, field geology, structural geology, outcrop
 category=Plugins
 icon=icon.png
+changelog=1.1
+ - Chainable segments along a single traverse, each with an independently editable dip.
+ - (Sub)horizontal mode for beds with dip <=5 degrees (skips the dip question, uses elevation difference directly).
+ - Elevation source selector: DEM layer, manual entry, or no elevation (rough flat-terrain estimate).
+ - Undo last point with Backspace/Delete; reset the traverse with a right-click.
+ - Fixed: point/DEM CRS mismatch producing wrong elevations; horizontal distance miscalculated on geographic-CRS projects; negative-thickness results now flagged inline instead of silently shown.
+ - Simplified, more compact interface; single contextual alert instead of scattered warnings.
+ - 1.0: initial experimental release.
 
 # Plugin state:
-experimental=True
+experimental=False
 deprecated=False
 server=False
 
 # Required by QGIS Plugin Repository:
-[about]
-tracker=https://github.com/AsierGeocrazy/stratigraphic_thickness/issues
-repository=https://github.com/AsierGeocrazy/stratigraphic_thickness
-homepage=https://github.com/AsierGeocrazy/stratigraphic_thickness
+tracker=https://github.com/geoasier/stratigraphic_thickness/issues
+repository=https://github.com/geoasier/stratigraphic_thickness
+homepage=https://github.com/geoasier/stratigraphic_thickness

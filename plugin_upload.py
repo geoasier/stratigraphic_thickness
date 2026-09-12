@@ -10,7 +10,12 @@ import getpass
 import xmlrpc.client
 from optparse import OptionParser
 
-standard_library.install_aliases()
+# Refuerza xmlrpc.client frente a XML malicioso (bomba de entidades, etc.)
+# antes de crear cualquier ServerProxy. Requiere `pip install defusedxml`
+# para usar este script (solo hace falta al subir el plugin, no en tiempo
+# de ejecucion dentro de QGIS).
+import defusedxml.xmlrpc
+defusedxml.xmlrpc.monkey_patch()
 
 # Configuration
 PROTOCOL = 'https'

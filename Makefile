@@ -38,15 +38,15 @@ LOCALES =
 # translation
 SOURCES = \
 	__init__.py \
-	stratigraphic_thickness.py stratigraphic_thickness_dialog.py
+	stratigraphic_thickness.py
 
 PLUGINNAME = stratigraphic_thickness
 
 PY_FILES = \
 	__init__.py \
-	stratigraphic_thickness.py stratigraphic_thickness_dialog.py
+	stratigraphic_thickness.py
 
-UI_FILES = stratigraphic_thickness_dialog_base.ui
+UI_FILES =
 
 EXTRAS = metadata.txt icon.png
 
