@@ -40,7 +40,7 @@ class StratigraphicThicknessDialog(QDialog):
         self.iface = iface
         self.setWindowTitle("Stratigraphic Thickness Calculator")
         self.setLayout(QVBoxLayout())
-        self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(self.windowFlags() | Qt.WindowType.WindowStaysOnTopHint)
 
         self.settings = QSettings("EHU", "StratigraphicThicknessCalculator")
 
@@ -143,7 +143,7 @@ class StratigraphicThicknessDialog(QDialog):
         layout.addWidget(self.list_segments)
 
         self.label_total = QLabel("TOTAL THICKNESS: -")
-        self.label_total.setAlignment(Qt.AlignCenter)
+        self.label_total.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.label_total.setStyleSheet(
             "background-color:#eaf2f8; border:1px solid #2980b9; border-radius:6px; "
             "padding:5px; font-weight:bold; font-size:14px; color:#1b4f72;"
@@ -152,13 +152,13 @@ class StratigraphicThicknessDialog(QDialog):
 
         hint = QLabel("\U0001F5B1\ufe0f Right-click the map to reset  \u00b7  \u232b Backspace to undo last point")
         hint.setStyleSheet("color: #888; font-size: 10px;")
-        hint.setAlignment(Qt.AlignCenter)
+        hint.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(hint)
 
     def _build_map_tools(self):
         self.map_tool = QgsMapToolEmitPoint(self.iface.mapCanvas())
         self.map_tool.canvasClicked.connect(self.get_point)
-        self.map_tool.setCursor(Qt.CrossCursor)
+        self.map_tool.setCursor(Qt.CursorShape.CrossCursor)
 
         # Colores: azul para la traza, naranja para los puntos (el rojo se
         # deja libre para los avisos, así no se confunden con "algo va mal").
@@ -167,36 +167,36 @@ class StratigraphicThicknessDialog(QDialog):
         halo_color = QColor(255, 255, 255, 235)
 
         # Halo blanco debajo de la línea, para que se lea sobre cualquier capa
-        self.rubber_band_line_halo = QgsRubberBand(self.iface.mapCanvas(), QgsWkbTypes.LineGeometry)
+        self.rubber_band_line_halo = QgsRubberBand(self.iface.mapCanvas(), QgsWkbTypes.GeometryType.LineGeometry)
         self.rubber_band_line_halo.setColor(halo_color)
         self.rubber_band_line_halo.setWidth(5)
 
-        self.rubber_band_line = QgsRubberBand(self.iface.mapCanvas(), QgsWkbTypes.LineGeometry)
+        self.rubber_band_line = QgsRubberBand(self.iface.mapCanvas(), QgsWkbTypes.GeometryType.LineGeometry)
         self.rubber_band_line.setColor(line_color)
         self.rubber_band_line.setWidth(2)
 
         # Halo blanco debajo de cada punto, mismo motivo
-        self.rubber_band_points_halo = QgsRubberBand(self.iface.mapCanvas(), QgsWkbTypes.PointGeometry)
+        self.rubber_band_points_halo = QgsRubberBand(self.iface.mapCanvas(), QgsWkbTypes.GeometryType.PointGeometry)
         self.rubber_band_points_halo.setColor(halo_color)
-        self.rubber_band_points_halo.setIcon(QgsRubberBand.ICON_CIRCLE)
+        self.rubber_band_points_halo.setIcon(QgsRubberBand.IconType.ICON_CIRCLE)
         self.rubber_band_points_halo.setIconSize(14)
 
-        self.rubber_band_points = QgsRubberBand(self.iface.mapCanvas(), QgsWkbTypes.PointGeometry)
+        self.rubber_band_points = QgsRubberBand(self.iface.mapCanvas(), QgsWkbTypes.GeometryType.PointGeometry)
         self.rubber_band_points.setColor(point_color)
-        self.rubber_band_points.setIcon(QgsRubberBand.ICON_CIRCLE)
+        self.rubber_band_points.setIcon(QgsRubberBand.IconType.ICON_CIRCLE)
         self.rubber_band_points.setIconSize(8)
 
         # Línea de vista previa: punteada ("suspensiva") pero con contraste
         # suficiente para verse bien sobre cualquier capa base.
-        self.rubber_band_temp = QgsRubberBand(self.iface.mapCanvas(), QgsWkbTypes.LineGeometry)
+        self.rubber_band_temp = QgsRubberBand(self.iface.mapCanvas(), QgsWkbTypes.GeometryType.LineGeometry)
         self.rubber_band_temp.setColor(QColor("#f1c40f"))
         self.rubber_band_temp.setWidth(2)
-        self.rubber_band_temp.setLineStyle(Qt.DashLine)
+        self.rubber_band_temp.setLineStyle(Qt.PenStyle.DashLine)
 
         # Deshacer con Backspace / Supr, aunque el foco este en el mapa
-        for key in (Qt.Key_Backspace, Qt.Key_Delete):
+        for key in (Qt.Key.Key_Backspace, Qt.Key.Key_Delete):
             shortcut = QShortcut(QKeySequence(key), self)
-            shortcut.setContext(Qt.ApplicationShortcut)
+            shortcut.setContext(Qt.ShortcutContext.ApplicationShortcut)
             shortcut.activated.connect(self.undo_last_point)
 
     # ------------------------------------------------------------------
@@ -311,9 +311,9 @@ class StratigraphicThicknessDialog(QDialog):
     # ------------------------------------------------------------------
 
     def get_point(self, point, button):
-        if button == Qt.LeftButton:
+        if button == Qt.MouseButton.LeftButton:
             self.add_point(point)
-        elif button == Qt.RightButton:
+        elif button == Qt.MouseButton.RightButton:
             self.reset_measurement()
 
     def add_point(self, point):
@@ -381,8 +381,8 @@ class StratigraphicThicknessDialog(QDialog):
         segmentos en modo subhorizontal no se conectan con una línea: la
         distancia entre esos dos puntos no interviene en el cálculo, así
         que dibujarla induciría a pensar que sí importa."""
-        self.rubber_band_line.reset(QgsWkbTypes.LineGeometry)
-        self.rubber_band_line_halo.reset(QgsWkbTypes.LineGeometry)
+        self.rubber_band_line.reset(QgsWkbTypes.GeometryType.LineGeometry)
+        self.rubber_band_line_halo.reset(QgsWkbTypes.GeometryType.LineGeometry)
         parts = [[seg["start"], seg["end"]] for seg in self.segments if not seg.get("subhorizontal")]
         if parts:
             geom = QgsGeometry.fromMultiPolylineXY(parts)
@@ -408,8 +408,8 @@ class StratigraphicThicknessDialog(QDialog):
         if self.point_elevations:
             self.point_elevations.pop()
 
-        self.rubber_band_points.reset(QgsWkbTypes.PointGeometry)
-        self.rubber_band_points_halo.reset(QgsWkbTypes.PointGeometry)
+        self.rubber_band_points.reset(QgsWkbTypes.GeometryType.PointGeometry)
+        self.rubber_band_points_halo.reset(QgsWkbTypes.GeometryType.PointGeometry)
         for p in self.line_points:
             self.rubber_band_points.addPoint(p)
             self.rubber_band_points_halo.addPoint(p)
@@ -445,11 +445,11 @@ class StratigraphicThicknessDialog(QDialog):
         self.update_status_pill()
         self.list_segments.clear()
         self.label_total.setText("TOTAL THICKNESS: -")
-        self.rubber_band_line.reset(QgsWkbTypes.LineGeometry)
-        self.rubber_band_line_halo.reset(QgsWkbTypes.LineGeometry)
-        self.rubber_band_points.reset(QgsWkbTypes.PointGeometry)
-        self.rubber_band_points_halo.reset(QgsWkbTypes.PointGeometry)
-        self.rubber_band_temp.reset(QgsWkbTypes.LineGeometry)
+        self.rubber_band_line.reset(QgsWkbTypes.GeometryType.LineGeometry)
+        self.rubber_band_line_halo.reset(QgsWkbTypes.GeometryType.LineGeometry)
+        self.rubber_band_points.reset(QgsWkbTypes.GeometryType.PointGeometry)
+        self.rubber_band_points_halo.reset(QgsWkbTypes.GeometryType.PointGeometry)
+        self.rubber_band_temp.reset(QgsWkbTypes.GeometryType.LineGeometry)
 
     # ------------------------------------------------------------------
     # Cálculo
@@ -560,7 +560,7 @@ class StratigraphicThicknessDialog(QDialog):
                 )
                 return None
 
-        ident = dem_layer.dataProvider().identify(point_in_dem_crs, QgsRaster.IdentifyFormatValue)
+        ident = dem_layer.dataProvider().identify(point_in_dem_crs, QgsRaster.IdentifyFormat.IdentifyFormatValue)
         if ident.isValid():
             height = ident.results().get(1)  # banda 1
             if height is not None:
