@@ -12,14 +12,14 @@ __author__ = 'asier.valenzuela@ehu.eus'
 __date__ = '2025-02-27'
 __copyright__ = 'Copyright 2025, Asier Valenzuela'
 
+import os
 import unittest
 
 from qgis.PyQt.QtGui import QIcon
 
 
-
-class StratigraphicThicknessDialogTest(unittest.TestCase):
-    """Test rerources work."""
+class StratigraphicThicknessResourcesTest(unittest.TestCase):
+    """Test the plugin icon loads correctly."""
 
     def setUp(self):
         """Runs before each test."""
@@ -30,9 +30,9 @@ class StratigraphicThicknessDialogTest(unittest.TestCase):
         pass
 
     def test_icon_png(self):
-        """Test we can click OK."""
-        path = ':/plugins/StratigraphicThickness/icon.png'
-        icon = QIcon(path)
+        """Test the icon loads from its file path (no compiled Qt resources)."""
+        icon_path = os.path.join(os.path.dirname(__file__), os.pardir, 'icon.png')
+        icon = QIcon(icon_path)
         self.assertFalse(icon.isNull())
 
 if __name__ == "__main__":
