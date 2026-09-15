@@ -25,9 +25,7 @@ from qgis.core import (
 )
 from qgis.gui import QgsMapToolEmitPoint, QgsRubberBand
 import math
-
-# Importar recursos (asegurate de que resources.py este en la misma carpeta)
-from . import resources
+import os
 
 DEFAULT_DIP_ANGLE = 45.0
 
@@ -599,8 +597,9 @@ class StratigraphicThickness:
         self.dialog = None
 
     def initGui(self):
+        icon_path = os.path.join(os.path.dirname(__file__), "icon.png")
         self.action = QAction(
-            QIcon(":/plugins/stratigraphic_thickness/icon.png"),
+            QIcon(icon_path),
             "Stratigraphic Thickness",
             self.iface.mainWindow()
         )

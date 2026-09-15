@@ -4,14 +4,12 @@
 [general]
 name=Stratigraphic Thickness
 qgisMinimumVersion=3.0
-description=Estimates stratigraphic thickness of a sedimentary succession from map clicks, with optional topographic correction using a DEM, manual elevation entry, or a quick no-elevation estimate.
+description=Estimates the stratigraphic thickness of a sedimentary succession, with optional topographic correction using a DEM.
 version=1.1
 author=Asier Valenzuela
 email=asier.valenzuela@ehu.eus
 
-about=This plugin estimates the stratigraphic thickness (ST) of a succession using the classic field-geology traverse method, with an optional topographic correction: ST = d*sin(dip) + Δh*cos(dip), where d is the horizontal distance between the base and the top of the succession, Δh is their elevation difference, and dip is the dip of the strata.
- Elevation can be read from a DEM layer, entered manually, or skipped entirely for a quick flat-terrain estimate. Successive segments can be chained along a single traverse, each with its own dip, useful for successions with changes in dip. A dedicated (sub)horizontal mode handles beds with dip ≤5° directly from the elevation difference. Any segment can be corrected afterwards by double-clicking it in the list, and the last clicked point can be undone with Backspace.
- This is an approximation: it assumes a continuous, undeformed succession, measured roughly perpendicular to the strike of the strata. Measuring across an entire folded or faulted succession gives meaningless results, but it works fine within a single fault-bounded block, or on the limb of a fold, as long as the strata keep a fairly constant strike and dip within that segment.
+about=This plugin estimates the stratigraphic thickness (ST) of a succession using the classic field-geology traverse method, with an optional topographic correction: ST = d*sin(dip) + Δh*cos(dip), where d is the horizontal distance between the base and the top of the succession, Δh is their elevation difference, and dip is the dip of the strata. Elevation can be read from a DEM layer, entered manually, or skipped entirely for a quick flat-terrain estimate. Successive segments can be chained along a single traverse, each with its own dip, useful for successions with changes in dip. A dedicated (sub)horizontal mode handles beds with dip ≤5° directly from the elevation difference. Any segment can be corrected afterwards by double-clicking it in the list, and the last clicked point can be undone with Backspace. This is an approximation: it assumes a continuous, undeformed succession, measured roughly perpendicular to the strike of the strata. Measuring across an entire folded or faulted succession gives meaningless results, but it works fine within a single fault-bounded block, or on the limb of a fold, as long as the strata keep a fairly constant strike and dip within that segment.
 
 # Recommended items:
 hasProcessingProvider=no
